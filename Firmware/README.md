@@ -1,1 +1,2 @@
 
+Minimal SPIFFS (1.9MB APP with OTA/128KB SPIFFS)
