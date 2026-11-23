@@ -22,7 +22,7 @@ Use the name of the sound effect as the filename. This will make it easier to ke
 
 We first need to convert the sound into a RAW audio file.
 
-Download and open **Audacity** (available for free).
+Download and open **[Audacity](https://www.audacityteam.org/)** (available for free).
 
 1. Open Audacity.
 2. Select **File → Open** and locate your sound file (WAV or MP3).
