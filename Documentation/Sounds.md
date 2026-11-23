@@ -92,6 +92,20 @@ const uint8_t coin_raw[] PROGMEM = {
 const size_t coin_raw_length = sizeof(coin_raw);
 ```
 
+**Important – Understanding File and Variable Names**
+
+There is a difference between the filename and the variable name used in the code.
+
+For example, if your sound effect is called `coin`:
+
+- The Arduino tab (filename) must be called `coin.h`.
+- The variable name in the code must be `coin_raw`.
+- The length variable must be called `coin_raw_length`.
+
+**Do not include `.h` in the variable names.** The `.h` extension is only used for the filename.
+
+Make sure you use the same name consistently throughout the template and when calling the sound in your program.
+
 ## 5. Add the New Sound to AudioAssets.h
 
 Open the `AudioAssets.h` tab in the Arduino IDE.
