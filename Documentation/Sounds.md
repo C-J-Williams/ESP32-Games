@@ -1,58 +1,67 @@
-# Creating Audio Files for the Games Machine
+# Creating New Sounds
 
-This guide explains how to create and add new sound effects to the ESP32 Games Machine firmware.
+## 1. Find or Create Your Sound
 
-## 1. Find or Create Your Sound Effects
+Find or create the sound effects you want to use in your game.
 
-First, find or create the sound effects you want to use in your Games Machine.
+You can download existing sound effects or create your own. The audio files can be in WAV or MP3 format.
 
-You can use existing WAV or MP3 files or create your own.
+Once you have your sound, we need to convert it into a format that can be stored directly in the ESP32's program memory.
 
-## 2. Convert the Audio Using Audacity
+## 2. Create a New Tab in Arduino IDE
 
-Download and install [Audacity](https://www.audacityteam.org/), which is available free of charge.
+Open your Arduino project and create a new tab for the sound effect.
+
+Give the tab a name that describes the sound, for example:
+
+`coin.h`
+
+Use the name of the sound effect as the filename. This will make it easier to keep track of your sounds.
+
+## 3. Convert Your Sound Using Audacity
+
+We first need to convert the sound into a RAW audio file.
+
+Download and open **Audacity** (available for free).
 
 1. Open Audacity.
-2. Open your WAV or MP3 file using **File → Open**.
-3. Go to **File → Export**.
-4. In the export dialogue box, make the following settings:
+2. Select **File → Open** and locate your sound file (WAV or MP3).
+3. Once the sound is loaded, select **File → Export**.
+4. Use the following export settings:
 
-   | Setting | Value |
-   |---|---|
-   | Type | Export full project audio |
-   | File Name | A useful name for the file (e.g. coin) |
-   | Folder | Choose a folder where you can easily find the exported audio |
-   | Format | Other uncompressed files |
-   | Channels | Mono |
-   | Sample Rate | 16000 Hz |
-   | Header | RAW (header-less) |
-   | Encoding | Signed 16-bit PCM |
+| Setting | Value |
+|---|---|
+| Type | Export full project audio |
+| Filename | A suitable name, e.g. `coin` |
+| Folder | Choose where you want to save the file |
+| Format | Other uncompressed files |
+| Channels | Mono |
+| Sample Rate | 16000 Hz |
+| Header | RAW (header-less) |
+| Encoding | Signed 16-bit PCM |
 
-5. Press **Export**.
+5. Click **Export** to save your file.
 
-This will create a `.raw` audio file.
+You should now have a `.raw` audio file.
 
-## 3. Convert the RAW File into HEX Data
+### Convert the RAW File to HEX
+
+We now need to convert the RAW file into HEX data that can be added to our Arduino program.
 
 Go to the following website:
 
 [Tomeko – File to HEX Converter](https://tomeko.net/online_tools/file_to_hex.php)
 
-1. Click **Upload a file**.
-2. Select the `.raw` file you created in Audacity.
-3. Click **COPY OUTPUT TO CLIPBOARD**.
+1. Upload the `.raw` file you created in Audacity.
+2. Click **COPY OUTPUT TO CLIPBOARD**.
 
-The converted audio data is now ready to be added to your Arduino project.
+Your converted sound data is now ready to paste into Arduino IDE.
 
-## 4. Create a New Arduino IDE Tab
+## 4. Paste the Sound Data into Arduino IDE
 
-In the Arduino IDE, create a new tab and give it a name matching your sound effect.
+Return to the new tab you created in Arduino IDE.
 
-For example:
-
-`newsound.h`
-
-Copy the following template into the new tab:
+Paste the following template into the tab:
 
 ```cpp
 #pragma once
@@ -68,49 +77,41 @@ const uint8_t newsound_raw[] PROGMEM = {
 const size_t newsound_raw_length = sizeof(newsound_raw);
 ```
 
-Replace `newsound` with a meaningful name for your sound effect, such as:
+You now need to replace `newsound` with the name of your sound effect.
 
-- `coin`
-- `hit`
-- `win`
-
-**Important:** Every sound effect must have a unique name. It must not be the same as any other sound already in your project.
-
-Now paste the HEX data copied from the Tomeko website into the area marked `// Paste raw data here`.
-
-Make sure all the variable names match. The name used in the array declaration must also be used in the length declaration.
-
-For example, if your sound is called `coin`, the declarations should become:
+For example, if your sound is called `coin`, the first line should become:
 
 ```cpp
 const uint8_t coin_raw[] PROGMEM = {
+```
 
-// Paste raw data here
+And the final line should become:
 
-};
-
+```cpp
 const size_t coin_raw_length = sizeof(coin_raw);
 ```
 
+Paste the HEX data you copied from the Tomeko website between the curly brackets.
+
 **Important – Understanding File and Variable Names**
 
-There is a difference between the filename and the variable name used in the code.
+There is a difference between the filename and the variable names used in the code.
 
 For example, if your sound effect is called `coin`:
 
 - The Arduino tab (filename) must be called `coin.h`.
-- The variable name in the code must be `coin_raw`.
+- The variable name must be called `coin_raw`.
 - The length variable must be called `coin_raw_length`.
 
 **Do not include `.h` in the variable names.** The `.h` extension is only used for the filename.
 
-Make sure you use the same name consistently throughout the template and when calling the sound in your program.
+Make sure you use the same name consistently throughout the template and when playing the sound.
 
-## 5. Add the New Sound to AudioAssets.h
+## 5. Include the Sound in AudioAssets.h
 
-Open the `AudioAssets.h` tab in the Arduino IDE.
+Open the `AudioAssets.h` tab in Arduino IDE.
 
-Add an include statement for the new sound file underneath the other includes.
+Add an include statement for your new sound file underneath the other sound files that are already included.
 
 For example:
 
@@ -120,30 +121,26 @@ For example:
 #include "newsound.h"
 ```
 
-Use the exact filename of the tab you created in Step 4.
+Replace `newsound.h` with the actual filename of your sound.
 
-**Important:** Capitalisation is extremely important. The filename and include statement must match exactly.
+**Important:** The filename, including capital letters and the `.h` extension, must match the Arduino tab exactly.
 
-Also make sure the filename is not already being used by another sound file.
+## 6. Play Your Sound
 
-## 6. Playing Your New Sound Effect
+Your sound is now ready to use in your game!
 
-Your new sound effect can now be played from within the Games Machine program using the following command:
+To play it, use the following command:
 
 ```cpp
 playPCM(newsound_raw, newsound_raw_length);
 ```
 
-Replace `newsound` with the name you assigned to your sound effect.
+Make sure `newsound_raw` and `newsound_raw_length` match the variable names you used in your sound file.
 
-For example, to play the coin sound:
+For example, to play the sound called `coin`, use:
 
 ```cpp
 playPCM(coin_raw, coin_raw_length);
 ```
 
-That's it! Your new sound effect is now included in the Games Machine firmware and can be played whenever required.
-
----
-
-**Tip:** Give your sound files descriptive names and keep them organised. This makes it much easier to identify and manage audio assets as you add more games and sound effects to the project.
+That's it! Your sound effect is now stored in the ESP32's program memory and can be played directly by your game without needing an SD card.
