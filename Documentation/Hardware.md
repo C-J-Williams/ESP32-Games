@@ -19,7 +19,7 @@ The following components were used in the development and construction of this p
 
 The components used during development were purchased from AliExpress. The links below are provided as a reference to the specific products used when designing and assembling the machine.
 
-These are not exclusive suppliers. The components, or equivalent alternatives, are generally available from other electronics suppliers and online retailers.
+These are not exclusive suppliers. The components, or equivalent alternatives, are generally available from other electronics suppliers and online retailers. Buy from where ever you find it cheaper.
 
 - **PSP 1000 Joystick** – [AliExpress](https://www.aliexpress.com/item/1005006347196648.html)
 - **ESP32-WROOM-32 Development Board** – [AliExpress](https://www.aliexpress.com/item/1005006476877078.html)
